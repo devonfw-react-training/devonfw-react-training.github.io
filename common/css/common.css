@@ -1,6 +1,6 @@
 .reveal .react-logo {
     animation: react-logo-spin infinite 20s linear;
-    height: 40vmin;
+    height: 30vmin;
 }
 
 @keyframes react-logo-spin {
