@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>devonfw React Foundations</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+    <link rel="icon" href="../common/img/favicon.ico">
+
+    <link rel="stylesheet" href="../reveal.js-3.6.0/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js-3.6.0/css/theme/white.css">
+    <link rel="stylesheet" href="../common/css/common.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../reveal.js-3.6.0/lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <!-- <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script> -->
+    <style>
+        .exercises {
+            --bg-color: var(--cap-white);
+            --link-color: var(--cap-gray);
+        }
+        code:not(.hljs) {
+            color: var(--cap-gray);
+        }
+
+        section.agenda ul {
+            list-style: none;
+            margin: 0;
+            color: var(--cap-white);
+        }
+    </style>
+</head>
+<body class="exercises">
+<div class="devon reveal">
+    <div class="slides">
+        <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+            <h3 class="white" style="text-transform: none">Exercises</h3>
+            <ol class="white">
+                <li><a href="#/simple-component">Simple Component</a></li>
+            </ol>
+        </section>
+        <section id="simple-component">
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (1/7)</h3>
+                <ol class="white">
+                    <li>Let's assume we're in the <code>src</code> directory.</li>
+                    <li>Create a new interface <code>Book</code> in <pre style="margin: 0"><code class="hljs bash" data-trim>books/Book.ts</code></pre></li>
+                    <li>The <code>Book</code> interface has the <code>id</code> (number) as well as the <code>authors</code> and the <code>title</code> (both strings) properties.</li>
+                    <li>Create a new component <code>BookDetails</code> in: <pre style="margin: 0"><code class="hljs bash" data-trim>books/components/BookDetails/BookDetails.tsx</code></pre></li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (2/7)</h3>
+                <ol class="white">
+                    <li>Export an interface <code>State</code> having the <code>currentBook</code> property of the (previously created) <code>Book</code> type.</li>
+                    <li>Export an empty interface <code>Props</code>.</li>
+                    <li>Export a new class <code>BookDetails</code> extending the <code>Component&lt;Props, State&gt;</code> class.</li>
+                    <li>Import the <code>Component</code> class: <pre style="margin: 0"><code class="hljs js" data-trim>import {Component} from 'react'</code></pre></li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (3/7)</h3>
+                <ol class="white">
+                    <li>Initialize the <code>BookDetails.state</code> property:
+                        <pre style="margin: 0"><code class="hljs js" data-trim>
+class BookDetails extends Component&lt;Props, State&gt; {
+  state: State = {
+    currentBook: {
+      id: 1,
+      authors: 'John Example',
+      title: 'Example Book'}
+  };
+}
+                        </code></pre>
+                    </li>
+                    <li>Add the <code>BookDetails.render()</code> method:
+                        <pre style="margin: 0"><code class="hljs js" data-trim>
+import React from 'react';
+
+class BookDetails extends Component&lt;Props, State&gt; {
+  render(): React.ReactNode {}
+}
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (4/7)</h3>
+                <ol class="white">
+                    <li>Implement the <code>BookDetails.render()</code> method based on <a href="https://getbootstrap.com/docs/4.1/components/forms/#readonly-plain-text" target="_blank">this Bootstrap example</a>.</li>
+                    <li>Render the <code>Book</code>'s <code>authors</code> and <code>title</code> properties. Instead of <code>&lt;input&gt;</code> use <code>&lt;p&gt;</code> with <code>form-control-plaintext</code> CSS class.</li>
+                    <li>According to <a href="https://getbootstrap.com/docs/4.1/layout/overview/#containers" target="_blank">these layout rules</a> wrap the form into a <code>&lt;div&gt;</code> container.</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (5/7)</h3>
+                <ol class="white">
+                    <li>Add a <a href="https://github.com/css-modules/css-modules">CSS (SCSS) module</a> in <pre style="margin: 0"><code class="hljs bash" data-trim>book/modules/BookDetails/BookDetails.module.scss</code></pre></li>
+                    <li>Add a CSS (SCSS) rule: the font weight is <code>bold</code> for all labels within the container with the <code>form</code> CSS class.</li>
+                    <li>Import the styles from the CSS module (just added) in the <code>BookDetails</code> component: <pre style="margin: 0"><code class="hljs js" data-trim>import styles from './BookDetails.module.scss';</code></pre></li>
+                    <li>Set the imported <code>styles.form</code> CSS class on the <code>&lt;div&gt;</code> container.</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (6/7)</h3>
+                <ol class="white">
+                    <li>Import the <code>BookDetails</code> component in the <code>App</code> component: <pre style="margin: 0"><code class="hljs js" data-trim>import { BookDetails } from './book/modules/BookDetails/BookDetails';</code></pre></li>
+                    <li>Refactor the <code>App</code> class component into the function one:
+                        <pre style="margin: 0"><code class="hljs js" data-trim>
+export const App = () => &lt;BookDetails/&gt;;
+                        </code></pre>
+                    </li>
+                    <li>To the <code>App</code> CSS module add the <code>container</code> CSS class having the <code>top-margin</code> of <code>20px</code>.</li>
+                    <li>Wrap the <code>&lt;BookDetails/&gt;</code> into the <code>&lt;div&gt;</code> container and assign it the <code>container</code> CSS class.</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Simple component (7/7)</h3>
+                <ol class="white">
+                    <li>Add tests for the <code>BookDetails</code> component in: <pre style="margin: 0"><code class="hljs bash" data-trim>books/components/BookDetails/BookDetails.test.tsx</code></pre></li>
+                    <li>Implement test cases checking if the state was set (1), the authors (2) as well as the title (3) are rendered and the deep component test (4).</li>
+                    <li>Make the <code>App</code> component's tests pass.</li>
+                </ol>
+            </section>
+        </section>
+    </div>
+</div>
+
+
+<script src="../reveal.js-3.6.0/lib/js/head.min.js"></script>
+<script src="../reveal.js-3.6.0/js/reveal.js"></script>
+
+<script>
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            {
+                src: '../reveal.js-3.6.0/lib/js/classList.js', condition: function() {
+                    return !document.body.classList;
+                }
+            },
+            {
+                src: '../reveal.js-3.6.0/plugin/highlight/highlight.js', async: true, callback: function() {
+                    hljs.initHighlightingOnLoad();
+                }
+            },
+            {src: '../reveal.js-3.6.0/plugin/search/search.js', async: true},
+            {src: '../reveal.js-3.6.0/plugin/zoom-js/zoom.js', async: true},
+            {src: '../reveal.js-3.6.0/plugin/notes/notes.js', async: true}
+        ]
+    });
+</script>
+</body>
+</html>
