@@ -49,6 +49,7 @@
             <ol class="white">
                 <li><a href="#/simple-component">Simple Component</a></li>
                 <li><a href="#/master-details">Master Details</a></li>
+                <li><a href="#/data-binding">Data Binding</a></li>
             </ol>
         </section>
         <section id="simple-component">
@@ -241,6 +242,125 @@ render(): React.ReactNode {
                     <li>Create tests for the <code>BookOverview</code> component in: <pre style="margin: 0"><code class="hljs bash" data-trim>books/components/BookOverview/BookOverview.test.tsx</code></pre></li>
                     <li>The test cases should check (among others) if the master table is rendered as well as if the details are rendered upon a click on a row.</li>
                     <li>Update the <code>App</code> component so that the <code>BookOverview</code> (instead of <code>BookDetails</code>) element is rendered.</li>
+                </ol>
+            </section>
+        </section>
+        <section id="data-binding">
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (1/7)</h3>
+                <ol class="white">
+                    <li>We are going to make the <code>BookDetails</code> component stateful (again): refactor it to the class component;
+                        the state is just a book itself (the <code>State</code> interface extends the <code>Book</code> one).</li>
+                    <li>Add the <code>onBookChange</code> optional property to the (existing) <code>Props</code> interface;
+                        <code>onBookChange</code> is a function expecting a book and returning <code>void</code>:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+export interface Props {
+  book: Book;
+  onBookChange?: (book: Book) => void;
+}
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (2/7)</h3>
+                <ol class="white">
+                    <li>Initialize the state with the values coming from the <code>book</code> property:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+class BookDetails extends Component&lt;Props, State&gt; {
+  state: State = {...this.props.book};
+}
+                        </code></pre>
+                    </li>
+                    <li>Go to the <code>render()</code> method and replace the <code>&lt;p&gt;</code> elements with <code>&lt;input&gt;</code> ones, e.g.:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+render(): React.ReactNode {
+  return (
+    &lt;input id="authors"
+           type="text"
+           className="form-control"
+           value={this.state.authors}
+           onChange={this.updateAuthorsValue}
+    /&gt;);
+}
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (3/7)</h3>
+                <ol class="white">
+                    <li>The <code>&lt;input&gt;</code>'s <code>value</code> property is now bound to the state (1st direction)
+                        and any change on the <code>&lt;input&gt;</code> is handled by the <code>updateAuthorsValue</code> class bound function which is going to update the state (2nd direction).</li>
+                    <li>For <code>updateAuthorsValue</code> to be implemented we need a helper function:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+function getValueFromInputChangeEvent(event: SyntheticEvent) {
+  const inputElement = event.target as HTMLInputElement;
+  return inputElement.value;
+}
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (4/7)</h3>
+                <ol class="white">
+                    <li>Implement the <code>updateAuthorsValue</code> class bound function:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+updateAuthorsValue = (event: SyntheticEvent) => {
+  // use getValueFromInputChangeEvent to get the new value
+  // update the state with the new value
+}
+                        </code></pre>
+                    </li>
+                    <li>Similarly, implement the <code>updateTitleValue</code> handler.</li>
+                    <li>Add a <a href="https://getbootstrap.com/docs/4.1/components/buttons/#examples" target="_blank">Bootstrap's primary button</a> (of type <code>'submit'</code>) to the form, just under the fields.</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (5/7)</h3>
+                <ol class="white">
+                    <li>Handle the <code>&lt;form&gt;</code>'s <code>submit</code> event in the <code>notifyOnBookChange</code> class bound function:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+notifyOnBookChange = (event: SyntheticEvent) => {
+  // prevent the default submit event's behavior
+  // call back the this.props.onBookChange (if any)
+  // passing it a copy of the current state
+}
+
+render(): React.ReactNode {
+  return (
+    &lt;form onSubmit={this.notifyOnBookChange}&gt;
+  );
+}
+                        </code></pre>
+                    </li>
+                    <li>Implement new test cases and make the existing ones pass :)</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (6/7)</h3>
+                <ol class="white">
+                    <li>Go to the <code>BookOverview</code> component. After changes we have just made, only the first click on a row renders its details. The subsequent clicks don't update the details :(</li>
+                    <li>To fix this, add the <code>key</code> property (setting it to the book's ID) to the <code>&lt;BookOverview&gt;</code> element;
+                        <a href="https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key" target="_blank">here</a> you can learn why it helps.</li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Data Binding (7/7)</h3>
+                <ol class="white">
+                    <li>Implement the <code>updateBook</code> class bound arrow function:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+updateBook = (book: Book) => {
+  this.setState(state => {
+    // find the book in the state.books list, make a copy of it
+    // and update the book on the list;
+    // return the new state object
+  });
+}
+                        </code></pre>
+                    </li>
+                    <li>Implement new test cases and make the existing ones pass :)</li>
                 </ol>
             </section>
         </section>
