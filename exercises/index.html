@@ -50,6 +50,7 @@
                 <li><a href="#/simple-component">Simple Component</a></li>
                 <li><a href="#/master-details">Master Details</a></li>
                 <li><a href="#/data-binding">Data Binding</a></li>
+                <li><a href="#/service">Service</a></li>
             </ol>
         </section>
         <section id="simple-component">
@@ -361,6 +362,35 @@ updateBook = (book: Book) => {
                         </code></pre>
                     </li>
                     <li>Implement new test cases and make the existing ones pass :)</li>
+                </ol>
+            </section>
+        </section>
+        <section id="service">
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Service (2/2)</h3>
+                <ol class="white">
+                    <li>Create a new class <code>BookService</code> in <pre style="margin: 0"><code class="hljs bash" data-trim>book/services/BookService.ts</code></pre></li>
+                    <li><code>BookService</code> keeps a list of books (like in the <code>BookOverview</code>) and exposes the following API:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+export class BookService {
+  findAll(): Promise&lt;Book[]&gt; {}
+
+  findOne(id: number): Promise&lt;Book&gt; {}
+
+  save(bookToSave: Book): Promise&lt;Book&gt; {}
+}
+                        </code></pre>
+                    </li>
+                    <li>Implement the service and add test cases in: <pre style="margin: 0"><code class="hljs bash" data-trim>book/services/BookService.test.ts</code></pre></li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Service (2/2)</h3>
+                <ol class="white">
+                    <li>Go to the <code>BookOverview</code> component. Add the <code>bookService</code> property (of the <code>BookService</code> type) to the <code>Props</code> interface.</li>
+                    <li>Call the <code>bookService.findAll()</code> method to set the state's books in the <code>componentDidMount()</code> lifecycle method.
+                        Don't forget to make tests pass :)</li>
+                    <li>Go to the <code>App</code> component and set the <code>BookOverview</code>'s <code>bookService</code> property to a new <code>BookService</code> instance.</li>
                 </ol>
             </section>
         </section>
