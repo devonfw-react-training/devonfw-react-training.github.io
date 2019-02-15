@@ -52,6 +52,7 @@
                 <li><a href="#/data-binding">Data Binding</a></li>
                 <li><a href="#/service">Service</a></li>
                 <li><a href="#/router">Router</a></li>
+                <li><a href="#/forms">Forms</a></li>
             </ol>
         </section>
         <section id="simple-component">
@@ -590,6 +591,115 @@ class ExistingBookDetails extends Component&lt;ExistingBookDetailsProps, Existin
     return &lt;p className="container"&gt;Loading book...&lt;/p&gt;;
   }
 }
+                    </code></pre>
+                </div>
+            </section>
+        </section>
+        <section id="forms">
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (1/6)</h3>
+                <ol class="white">
+                    <li>Go to the <code>BookDetails</code> component. Remove the state from it and transform it into the function component.</li>
+                    <li>Consequently, the <code>updateTitleValue()</code> and <code>updateAuthorsValue()</code> methods can also be removed.</li>
+                    <li>Change <code>Prop</code>'s <code>onBookChange</code> so that it returns a <code>Promise</code> instead of <code>void</code>:
+                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
+export interface Props {
+  ...
+  onBookChange?: (book: Book | BookProperties) => Promise&lt;any&gt;;
+}
+                        </code></pre>
+                    </li>
+                </ol>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (2/6)</h3>
+                <div class="white" style="text-align: left">Make use of the <code>&lt;Formik&gt;</code> element and implement its <code>onSubmit</code> property:
+                    <pre style="margin: 0;width: 100%;"><code class="hljs html" data-trim>
+export const BookDetails = (props: Props) => (
+  &lt;div className={`${styles.form} container`}&gt;
+    &lt;Formik initialValues={props.book}
+            onSubmit={(values: Book | BookProperties, {setSubmitting}) => {
+              if (props.onBookChange) {
+                props.onBookChange({...values})
+                        .then(() => setSubmitting(false));
+              }
+            }}
+            render={() => (...)}/&gt;
+  &lt;/div&gt;);
+                    </code></pre>
+                </div>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (3/6)</h3>
+                <div class="white" style="text-align: left">Implement the <code>&lt;Formik&gt;</code>'s <code>render()</code> property (<code>&lt;Field&gt;</code> elements will be implemented soon):
+                    <pre style="width: 100%;"><code class="hljs html" data-trim>
+&lt;Form&gt;
+  &lt;div className="form-group row"&gt;
+    &lt;label htmlFor="authors" className="col-sm-4 col-form-label"&gt;Authors:&lt;/label&gt;
+    &lt;div className="col-sm-8"&gt;&lt;Field name="authors" ... /&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div className="form-group row"&gt;
+    &lt;label htmlFor="title" className="col-sm-4 col-form-label">Title:&lt;/label&gt;
+    &lt;div className="col-sm-8"&gt;&lt;Field name="title" ... /&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  ...
+  &lt;/div&gt;
+&lt;/Form&gt;
+                    </code></pre>
+                </div>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (4/6)</h3>
+                <div class="white" style="text-align: left">Implement the <code>BookDetailsInputComponent</code>:
+                    <pre style="width: 100%;"><code class="hljs html" data-trim>
+const BookDetailsInputComponent = ({field, form: {touched, errors}, ...props}: FieldProps) => (
+  &lt;div&gt;
+    &lt;input type="text"
+           className={`form-control ${(touched[field.name] && errors[field.name]) ? 'is-invalid' : ''}`}
+           {...field}
+           {...props} /&gt;
+    {touched[field.name] && errors[field.name] && &lt;div className="invalid-feedback"&gt;{errors[field.name]}&lt;/div&lt;}
+  &lt;/div&gt;
+);
+                    </code></pre>
+                </div>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (5/6)</h3>
+                <div class="white" style="text-align: left">Implement validation functions:
+                    <pre style="width: 100%;"><code class="hljs typescript" data-trim>
+function isEmptyInputValue(value: any) {
+  return value == null || value.length === 0;
+}
+
+function notEmptyAndMaxLengthOf(maxLength: number) {
+  return (value: any) => {
+    if (isEmptyInputValue(value)) {
+      return 'Please provide a value!';
+    } else if (value.length != null && value.length > maxLength) {
+      return `Please provide a value not longer than ${maxLength} characters!`;
+    }
+  }
+}
+                    </code></pre>
+                </div>
+            </section>
+            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
+                <h3 class="white" style="text-transform: none">Forms (6/6)</h3>
+                <div class="white" style="text-align: left">Add <code>&lt;Field&gt;</code>'s <code>component</code> and <code>validate</code> properties:
+                    <pre style="width: 100%;"><code class="hljs html" data-trim>
+&lt;Form&gt;
+  &lt;div className="form-group row"&gt;
+    ...
+    &lt;Field name="authors" component={BookDetailsInputComponent}
+                          validate={notEmptyAndMaxLengthOf(15)} /&gt;&lt;/div&gt;
+  &lt;div className="form-group row"&gt;
+    &lt;Field name="title" component={BookDetailsInputComponent}
+                        validate={notEmptyAndMaxLengthOf(50)} /&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  ...
+  &lt;/div&gt;
+&lt;/Form&gt;
                     </code></pre>
                 </div>
             </section>
