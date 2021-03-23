@@ -68,34 +68,31 @@
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Simple component (2/7)</h3>
                 <ol class="white">
-                    <li>Create an interface <code>State</code> having the <code>currentBook</code> property of the (previously created) <code>Book</code> type.</li>
-                    <li>Export an empty interface <code>Props</code>.</li>
-                    <li>Export a new class <code>BookDetails</code> extending the <code>Component&lt;Props, State&gt;</code> class.</li>
-                    <li>Import the <code>Component</code> class: <pre style="margin: 0"><code class="hljs js" data-trim>import {Component} from 'react'</code></pre></li>
+                    <li>Export a new function <code>BookDetails</code> of type <code>FunctionComponent</code>.</li>
+                    <li>Import the <code>FunctionComponent</code> dependency: <pre style="margin: 0"><code class="hljs js" data-trim>import {FunctionComponent} from 'react'</code></pre></li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Simple component (3/7)</h3>
                 <ol class="white">
-                    <li>Initialize the <code>BookDetails.state</code> property:
+                    <li>Apply <code>useState</code> hook:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-class BookDetails extends Component&lt;Props, State&gt; {
-  state: State = {
-    currentBook: {
+import React, { FunctionComponent, useState } from 'react';
+
+export const BookDetails: FunctionComponent = () => {
+  const [currentBook, setCurrentBook] = useState&lt;Book&gt;({
       id: 1,
       authors: 'John Example',
-      title: 'Example Book'}
-  };
+      title: 'Example Book'
+    });
 }
                         </code></pre>
                     </li>
-                    <li>Add the <code>BookDetails.render()</code> method:
+                    <li>Add the <code>BookDetails</code> render function:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-import React, { Component, ReactNode } from 'react';
-
-class BookDetails extends Component&lt;Props, State&gt; {
-  render(): ReactNode {}
-}
+export const BookDetails: FunctionComponent = () => {    
+      return null;
+  }
                         </code></pre>
                     </li>
                 </ol>
@@ -103,7 +100,7 @@ class BookDetails extends Component&lt;Props, State&gt; {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Simple component (4/7)</h3>
                 <ol class="white">
-                    <li>Implement the <code>BookDetails.render()</code> method based on <a href="https://getbootstrap.com/docs/4.1/components/forms/#readonly-plain-text" target="_blank">this Bootstrap example</a>.</li>
+                    <li>Implement the <code>BookDetails</code> render function based on <a href="https://getbootstrap.com/docs/4.1/components/forms/#readonly-plain-text" target="_blank">this Bootstrap example</a>.</li>
                     <li>Render the <code>Book</code>'s <code>authors</code> and <code>title</code> properties. Instead of <code>&lt;input&gt;</code> use <code>&lt;p&gt;</code> with <code>form-control-plaintext</code> CSS class.</li>
                     <li>According to <a href="https://getbootstrap.com/docs/4.1/layout/overview/#containers" target="_blank">these layout rules</a> wrap the form into a <code>&lt;div&gt;</code> container.</li>
                 </ol>
@@ -111,10 +108,10 @@ class BookDetails extends Component&lt;Props, State&gt; {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Simple component (5/7)</h3>
                 <ol class="white">
-                    <li>Add a <a href="https://github.com/css-modules/css-modules">CSS (SCSS) module</a> in <pre style="margin: 0"><code class="hljs bash" data-trim>book/components/BookDetails/BookDetails.module.scss</code></pre></li>
-                    <li>Add a CSS (SCSS) rule: the font weight is <code>bold</code> for all labels within the container with the <code>form</code> CSS class.</li>
-                    <li>Import the styles from the CSS module (just added) in the <code>BookDetails</code> component: <pre style="margin: 0"><code class="hljs js" data-trim>import styles from './BookDetails.module.scss';</code></pre></li>
-                    <li>Set the imported <code>styles.form</code> CSS class on the <code>&lt;div&gt;</code> container.</li>
+                    <li>Add a <a href="https://styled-components.com/">styled component module</a> in <pre style="margin: 0"><code class="hljs bash" data-trim>book/components/BookDetails/BookDetails.css.ts</code></pre></li>
+                    <li>Add a CSS property for styled Label: the font weight is <code>bold</code> for all labels within the container</li>
+                    <li>Import the styled Label (just added) in the <code>BookDetails</code> component: <pre style="margin: 0"><code class="hljs js" data-trim>import { Label } from './BookDetails.css.ts';</code></pre></li>
+                    <li>Use it instead of build-in <code>label</code> element</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
@@ -123,11 +120,11 @@ class BookDetails extends Component&lt;Props, State&gt; {
                     <li>Import the <code>BookDetails</code> component in the <code>App</code> component: <pre style="margin: 0"><code class="hljs js" data-trim>import { BookDetails } from './book/components/BookDetails/BookDetails';</code></pre></li>
                     <li>Refactor the <code>App</code> class component into the function one:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-export const App = () => &lt;BookDetails/&gt;;
+export const App = () => &lt;BookDetails&gt;;
                         </code></pre>
                     </li>
-                    <li>To the <code>App</code> CSS module add the <code>container</code> CSS class having the <code>top-margin</code> of <code>20px</code>.</li>
-                    <li>Wrap the <code>&lt;BookDetails/&gt;</code> into the <code>&lt;div&gt;</code> container and assign it the <code>container</code> CSS class.</li>
+                    <li>To the <code>App</code> styled module add the <code>Container</code> component having the <code>top-margin</code> of <code>20px</code>.</li>
+                    <li>Wrap the <code>&lt;BookDetails/&gt;</code> into the styled <code>&lt;Container&gt;</code> </li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
@@ -143,39 +140,37 @@ export const App = () => &lt;BookDetails/&gt;;
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (1/8)</h3>
                 <ol class="white">
-                    <li>Go to the <code>BookDetails</code> (class) component. Instead of having the state's <code>currentBook</code> pass it as the <code>book</code> property.</li>
-                    <li>To do this remove the <code>State</code> interface and add the <code>book</code> property to the <code>Props</code> interface.</li>
-                    <li>Refactor the <code>BookDetails</code> class component into a function one: <pre style="margin: 0"><code class="hljs js" data-trim>export const BookDetails = (props: Props) => (...);</code></pre></li>
+                    <li>Go to the <code>BookDetails</code> (function) component. Instead of having the state's <code>currentBook</code> pass it as the <code>book</code> property.</li>
+                    <li>To do this create the <code>Props</code> interface and add the <code>book</code> property to it.</li>
+                    <li>Refactor the <code>BookDetails</code> into a function accepting parameter: <pre style="margin: 0"><code class="hljs js" data-trim>export const BookDetails = (props: Props) => (...);</code></pre></li>
                     <li>Don't forget to refactor tests :)</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (2/8)</h3>
                 <ol class="white">
-                    <li>Create a new class component <code>BookOverview</code> in: <pre style="margin: 0"><code class="hljs bash" data-trim>books/components/BookOverview/BookOverview.tsx</code></pre></li>
+                    <li>Create a new component <code>BookOverview</code> in: <pre style="margin: 0"><code class="hljs bash" data-trim>books/components/BookOverview/BookOverview.tsx</code></pre></li>
                     <li>Export an empty interface <code>Props</code>.</li>
-                    <li>Create an interface <code>State</code> having the <code>books</code> (an array of books) and the <code>selectedBook</code> (may be a book or <code>null</code>) properties.</li>
+                    <li>Design state of the component: the <code>books</code> (an array of books) and the <code>selectedBook</code> (may be a book or <code>null</code>).</li>
 
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (3/8)</h3>
                 <ol class="white">
-                    <li>Initialize the <code>BookOverview.state</code>:
+                    <li>Apply the <code>useState</code> hook to provide state for <code>BookOverview</code>:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-import { Component } from 'react';
+import { FunctionComponent } from 'react';
 
-class BookOverview extends Component&lt;Props, State&gt; {
-  state: State = {
-    books: [],
-    selectedBook: null
-  };
+export const BookOverview: FunctionComponent&lt;Props&gt; {
+  const [books, setBooks] = useState&lt;Book[]&gt;([]);
+  const [selectedBook, setSelectedBook] = useState&lt;Book&gt;(null);
 }
                         </code></pre>
                     </li>
-                    <li>Implement the <code>isBookSelected</code> method:
+                    <li>Implement the <code>isBookSelected</code> function:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-isBookSelected(book: Book): boolean {
+function isBookSelected(book: Book): boolean {
   // check if the book is the selected one
 }
                         </code></pre>
@@ -185,27 +180,26 @@ isBookSelected(book: Book): boolean {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (4/8)</h3>
                 <ol class="white">
-                    <li>Implement the <code>selectBook</code> method:
+                    <li>Implement the <code>selectBook</code> function:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-selectBook(book: Book): void {
+function selectBook(book: Book): void {
   // set the book as the selected one
 }
                         </code></pre>
                     </li>
-                    <li>Initialize the state's <code>books</code> with some values. Use the <code>componentDidMount</code> lifecycle method for that:
+                    <li>Initialize the state's <code>books</code> with some values. Use the <code>useEffect</code> hook for that:
                         <pre style="margin: 0"><code class="hljs js" data-trim>
-componentDidMount(): void {
+useEffect(() => {
   // set the state's books to some dummy values
-}
+}, []);
                         </code></pre>
                     </li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (5/8)</h3>
-                <div class="white">Add the <code>BookDetails.render()</code> method initially:
+                <div class="white">Add the <code>BookDetails</code> render function initially:
                     <pre style="margin: 0"><code class="hljs js" data-trim>
-render(): ReactNode {
   return (
     &lt;div className="container"&gt;
       &lt;div className="row"&gt;
@@ -218,7 +212,6 @@ render(): ReactNode {
       &lt;/div&gt;
     &lt;/div&gt;
   );
-}
                     </code></pre>
                 </div>
             </section>
@@ -235,7 +228,7 @@ render(): ReactNode {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (7/8)</h3>
                 <ol class="white">
-                    <li>Moreover, each <code>&lt;tr&gt;</code> element handles the <code>click</code> event setting the current book as the selected one (make use of the class bound arrow function implemented before).</li>
+                    <li>Moreover, each <code>&lt;tr&gt;</code> element handles the <code>click</code> event setting the current book as the selected one.</li>
                     <li>The master table is ready. Now replace the placeholder for details with the <code>&lt;BookDetails&gt;</code> component passing the <code>selectedBook</code> to it.
                         But if the <code>selectedBook</code> is not set, nothing is rendered.</li>
 
@@ -254,8 +247,8 @@ render(): ReactNode {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Data Binding (1/7)</h3>
                 <ol class="white">
-                    <li>We are going to make the <code>BookDetails</code> component stateful (again): refactor it to the class component;
-                        the state is just a book itself (the <code>State</code> interface extends the <code>Book</code> one).</li>
+                    <li>We are going to make the <code>BookDetails</code> component stateful (again): refactor it to leverage <code>useState</code> hook;
+                        the state is just a book itself.</li>
                     <li>Add the <code>onBookChange</code> optional property to the (existing) <code>Props</code> interface;
                         <code>onBookChange</code> is a function expecting a book and returning <code>void</code>:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
@@ -272,22 +265,20 @@ export interface Props {
                 <ol class="white">
                     <li>Initialize the state with the values coming from the <code>book</code> property:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-class BookDetails extends Component&lt;Props, State&gt; {
-  state: State = {...this.props.book};
+export const BookDetails: FunctionComponent&lt;Props&gt; = (props) => {
+  const [book, setBook] = useState&lt;Book&gt;({...props.book}};
 }
                         </code></pre>
                     </li>
-                    <li>Go to the <code>render()</code> method and replace the <code>&lt;p&gt;</code> elements with <code>&lt;input&gt;</code> ones, e.g.:
+                    <li>Go to the <code>render()</code> function and replace the <code>&lt;p&gt;</code> elements with <code>&lt;input&gt;</code> ones, e.g.:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-render(): React.ReactNode {
   return (
     &lt;input id="authors"
            type="text"
            className="form-control"
-           value={this.state.authors}
-           onChange={this.updateAuthorsValue}
+           value={book.authors}
+           onChange={updateAuthorsValue}
     /&gt;);
-}
                         </code></pre>
                     </li>
                 </ol>
@@ -310,9 +301,9 @@ function getValueFromInputChangeEvent(event: SyntheticEvent) {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Data Binding (4/7)</h3>
                 <ol class="white">
-                    <li>Implement the <code>updateAuthorsValue</code> class bound function:
+                    <li>Implement the <code>updateAuthorsValue</code> function:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-updateAuthorsValue = (event: SyntheticEvent) => {
+function updateAuthorsValue = (event: SyntheticEvent) => {
   // use getValueFromInputChangeEvent to get the new value
   // update the state with the new value
 }
@@ -325,19 +316,17 @@ updateAuthorsValue = (event: SyntheticEvent) => {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Data Binding (5/7)</h3>
                 <ol class="white">
-                    <li>Handle the <code>&lt;form&gt;</code>'s <code>submit</code> event in the <code>notifyOnBookChange</code> class bound function:
+                    <li>Handle the <code>&lt;form&gt;</code>'s <code>submit</code> event in the <code>notifyOnBookChange</code> function:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-notifyOnBookChange = (event: SyntheticEvent) => {
+function notifyOnBookChange = (event: SyntheticEvent) => {
   // prevent the default submit event's behavior
-  // call back the this.props.onBookChange (if any)
+  // call back the props.onBookChange (if any)
   // passing it a copy of the current state
 }
 
-render(): ReactNode {
   return (
-    &lt;form onSubmit={this.notifyOnBookChange}&gt;
+    &lt;form onSubmit={notifyOnBookChange}&gt;
   );
-}
                         </code></pre>
                     </li>
                     <li>Implement new test cases and make the existing ones pass :)</li>
@@ -347,21 +336,21 @@ render(): ReactNode {
                 <h3 class="white" style="text-transform: none">Data Binding (6/7)</h3>
                 <ol class="white">
                     <li>Go to the <code>BookOverview</code> component. After changes we have just made, only the first click on a row renders its details. The subsequent clicks don't update the details :(</li>
-                    <li>To fix this, add the <code>key</code> property (setting it to the book's ID) to the <code>&lt;BookOverview&gt;</code> element;
+                    <li>To fix this, add the <code>key</code> property (setting it to the book's ID) to the <code>&lt;BookDetails&gt;</code> element;
                         <a href="https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key" target="_blank">here</a> you can learn why it helps.</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Data Binding (7/7)</h3>
                 <ol class="white">
-                    <li>Implement the <code>updateBook</code> class bound arrow function:
+                    <li>Implement the <code>updateBook</code> arrow function:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
 updateBook = (bookToUpdate: Book) => {
-  this.setState(state => {
-    // update the state.books: apply the map method to
-    // state.books replacing the current book with the
+  setBooks(
+    // update the books: apply the map method to
+    // books replacing the current book with the
     // bookToUpdate if their IDs are equal
-  });
+  );
 }
                         </code></pre>
                     </li>
