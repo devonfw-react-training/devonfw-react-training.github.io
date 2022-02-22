@@ -140,7 +140,7 @@ export const App = () => &lt;BookDetails&gt;;
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (1/8)</h3>
                 <ol class="white">
-                    <li>Go to the <code>BookDetails</code> (function) component. Instead of having the state's <code>currentBook</code> pass it as the <code>book</code> property.</li>
+                    <li>Go to the <code>BookDetails</code> (class) component. Instead of having the state's <code>currentBook</code> pass it as the <code>book</code> property.</li>
                     <li>To do this create the <code>Props</code> interface and add the <code>book</code> property to it.</li>
                     <li>Refactor the <code>BookDetails</code> into a function accepting parameter: <pre style="margin: 0"><code class="hljs js" data-trim>export const BookDetails = (props: Props) => (...);</code></pre></li>
                     <li>Don't forget to refactor tests :)</li>
@@ -201,16 +201,23 @@ useEffect(() => {
                 <div class="white">Add the <code>BookDetails</code> render function initially:
                     <pre style="margin: 0"><code class="hljs js" data-trim>
   return (
-    &lt;div className="container"&gt;
-      &lt;div className="row"&gt;
-        &lt;div className="col-md-8 col-12"&gt;
-           master table goes here
-        &lt;/div&gt;
-        &lt;div className="col-md-4 col-12"&gt;
-           details go here
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;Grid container spacing={2}&gt;
+        &lt;Grid item md={8}&gt;
+          &lt;TableContainer component={Paper}&gt;
+            &lt;Table&gt;
+              &lt;TableHead&gt;
+                // master table books header goes here 
+              &lt;/TableHead&gt;
+              &lt;TableBody&gt;
+                // master table books data goes here 
+              &lt;/TableBody&gt;
+            &lt;/Table&gt;
+          &lt;/TableContainer&gt;
+        &lt;/Grid&gt;
+        &lt;Grid item md={4}&gt;
+          // book details go here
+        &lt;/Grid&gt;
+      &lt;/Grid&gt;
   );
                     </code></pre>
                 </div>
@@ -218,19 +225,20 @@ useEffect(() => {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (6/8)</h3>
                 <ol class="white">
-                    <li>Add rendering of the master table based on <a href="https://getbootstrap.com/docs/4.1/content/tables/#hoverable-rows" target="_blank">this Bootstrap example</a>.
+                    <li>Add rendering of the master table based on <a href="https://mui.com/components/tables/#BasicTable.tsx" target="_blank">this MaterialUI example</a>.
                         The master table has three columns: '#', 'Authors' and 'Title'.</li>
                     <li>Iterate over the state's <code>books</code> adding the table's rows. Use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank">Array.prototype.map</a> method.</li>
-                    <li>Each row, i.e. the <code>&lt;tr&gt;</code> element, has the <code>key</code> property set to the current book's ID and
-                        the <code>className</code> property to <code>'table-active'</code> if the current book is the selected one (make use of the method implemented before).</li>
+                    <li>Each row, i.e. the <code>&lt;TableRow&gt;</code> element, has the <code>key</code> property set to the current book's ID.
+                    <li>Make use of the method implemented before, if the current book is the <code>selected</code> one</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Master Details (7/8)</h3>
                 <ol class="white">
-                    <li>Moreover, each <code>&lt;tr&gt;</code> element handles the <code>click</code> event setting the current book as the selected one.</li>
-                    <li>The master table is ready. Now replace the placeholder for details with the <code>&lt;BookDetails&gt;</code> component passing the <code>selectedBook</code> to it.
-                        But if the <code>selectedBook</code> is not set, nothing is rendered.</li>
+                    <li>Moreover, each <code>&lt;TableRow&gt;</code> element handles the <code>click</code> event setting the current book as the selected one.</li>
+                    <li>The master table is ready. </li>
+                    <li>Now replace the placeholder for details with the <code>&lt;BookDetails&gt;</code> component passing the <code>selectedBook</code> to it.
+                        Be careful: if the <code>selectedBook</code> is not set, nothing is rendered.</li>
 
                 </ol>
             </section>
