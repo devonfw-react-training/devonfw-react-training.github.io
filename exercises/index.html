@@ -278,15 +278,15 @@ export const BookDetails: FunctionComponent&lt;Props&gt; = (props) => {
 }
                         </code></pre>
                     </li>
-                    <li>Go to the <code>render()</code> function and replace the <code>&lt;p&gt;</code> elements with <code>&lt;input&gt;</code> ones, e.g.:
+                    <li>Go to the <code>render()</code> function and replace the <code>&lt;Typography&gt;</code> elements with <code>&lt;TextField&gt;</code> ones, e.g.:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-  return (
-    &lt;input id="authors"
-           type="text"
-           className="form-control"
+    &lt;TextField id="authors" 
+           name="authors"
+           label="Authors"
+           variant="outlined" fullWidth
            value={book.authors}
-           onChange={updateAuthorsValue}
-    /&gt;);
+           onChange={handleChange}
+    /&gt;
                         </code></pre>
                     </li>
                 </ol>
@@ -295,13 +295,11 @@ export const BookDetails: FunctionComponent&lt;Props&gt; = (props) => {
                 <h3 class="white" style="text-transform: none">Data Binding (3/7)</h3>
                 <ol class="white">
                     <li>The <code>&lt;input&gt;</code>'s <code>value</code> property is now bound to the state (1st direction)
-                        and any change on the <code>&lt;input&gt;</code> is handled by the <code>updateAuthorsValue</code> class bound function which is going to update the state (2nd direction).</li>
-                    <li>For <code>updateAuthorsValue</code> to be implemented we need a helper function:
+                        and any change on the <code>&lt;input&gt;</code> is handled by the <code>handleChange</code> function which is going to update the state (2nd direction).</li>
+                    <li>For <code>handleChange</code> to be implemented we need to destruct some properties from ChangeEvent:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-function getValueFromInputChangeEvent(event: SyntheticEvent) {
-  const inputElement = event.target as HTMLInputElement;
-  return inputElement.value;
-}
+                            event: ChangeEvent&lt;HTMLInputElement&gt;
+                            const { name, value } = event.currentTarget;    
                         </code></pre>
                     </li>
                 </ol>
@@ -309,16 +307,17 @@ function getValueFromInputChangeEvent(event: SyntheticEvent) {
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
                 <h3 class="white" style="text-transform: none">Data Binding (4/7)</h3>
                 <ol class="white">
-                    <li>Implement the <code>updateAuthorsValue</code> function:
+                    <li>Implement the <code>handleChange</code> function:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-function updateAuthorsValue = (event: SyntheticEvent) => {
-  // use getValueFromInputChangeEvent to get the new value
-  // update the state with the new value
+function handleChange = (event: ChangeEvent&lt;HTMLInputElement&gt;) => {
+  // 1. use event attributes destruction
+  // 2. update the state using name and value
+  setBook((prevBook) => ({ ...prevBook, // update code here
 }
                         </code></pre>
                     </li>
-                    <li>Similarly, implement the <code>updateTitleValue</code> handler.</li>
-                    <li>Add a <a href="https://getbootstrap.com/docs/4.1/components/buttons/#examples" target="_blank">Bootstrap's primary button</a> (of type <code>'submit'</code>) to the form, just under the fields.</li>
+                    <li>Wrap text fields in a <code>&lt;form&gt;</code> element</li>
+                    <li>Add a <a href="https://mui.com/components/buttons/#contained-button" target="_blank">Material UI contained button</a> (of type <code>'submit'</code>) to the form, just under the fields.</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
@@ -353,7 +352,7 @@ function notifyOnBookChange = (event: SyntheticEvent) => {
                 <ol class="white">
                     <li>Implement the <code>updateBook</code> arrow function:
                         <pre style="margin: 0"><code class="hljs typescript" data-trim>
-updateBook = (bookToUpdate: Book) => {
+const updateBook = (bookToUpdate: Book) => {
   setBooks(
     // update the books: apply the map method to
     // books replacing the current book with the
