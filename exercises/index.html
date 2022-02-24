@@ -406,7 +406,7 @@ updateBook = (bookToUpdate: Book) => {
         </section>
         <section id="router">
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (1/10)</h3>
+                <h3 class="white" style="text-transform: none">Router (1/6)</h3>
                 <div class="white" style="text-align: left">Go to the <code>App.tsx</code> file and wrap the rendered content with the <code>BrowserRouter</code> element, adding also navigation:
                     <pre style="width: 100%"><code class="hljs typescript" data-trim>
                         import { BrowserRouter as Router} from 'react-router-dom';
@@ -421,7 +421,7 @@ updateBook = (bookToUpdate: Book) => {
                 </div>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (2/10)</h3>
+                <h3 class="white" style="text-transform: none">Router (2/6)</h3>
                 <div class="white" style="text-align: left">The navigation should contain two <a href="https://getbootstrap.com/docs/4.1/components/navs/#pills" target="_blank">pills</a>:
                     <code>Book&nbsp;Overview</code> and <code>New&nbsp;Book</code>; each of them should be a router's <code>&lt;NavLink&gt;</code> to <code>/book-app/books</code> and <code>/book-app/book</code> respectively:
                     <pre style="width: 100%"><code class="hljs typescript" data-trim>
@@ -441,7 +441,7 @@ export const App = () => (
                 </div>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (3/10)</h3>
+                <h3 class="white" style="text-transform: none">Router (3/6)</h3>
                 <div class="white" style="text-align: left">Add a router configuration in <code>App.tsx</code> file:
                     <pre style="width: 100%">
                         <code class="hljs html" data-trim>
@@ -467,143 +467,42 @@ export const App = () => (
                 </div>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (4/10)</h3>
-                <ol class="white">
-                    <li>Go to the <code>BookOverview</code> component. Remove the <code>&lt;BookDetails&gt;</code> element
-                        and the <code>&lt;tr&gt;</code>'s <code>className</code> from the <code>render()</code> method.</li>
-                    <li>Consequently, the <code>updateBook()</code> and <code>isBookSelected()</code> methods can be removed.</li>
-                    <li>Also, the state's <code>selectedBook</code> is not needed any more.</li>
-                </ol>
-            </section>
-            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (5/10)</h3>
-                <ol class="white">
-                    <li>Add an optional <code>onBookSelection</code> property which is in fact a callback function:
-                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
-export interface Props {
-  ...
-  onBookSelection?: (selectedBook: Book) => void;
-}
-                        </code></pre>
-                    </li>
-                    <li>Update the <code>selectBook()</code> method so that the callback is called upon book selection:
-                        <pre style="margin: 0"><code class="hljs typescript" data-trim>
-selectBook(book: Book): void {
-  if (this.props.onBookSelection) {
-    this.props.onBookSelection(book);
-  }
-}
-                        </code></pre>
-                    </li>
-                </ol>
-            </section>
-            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (6/10)</h3>
-                <ol class="white">
-                    <li>Create a new function component <code>BookOverviewRoute</code> in <pre style="margin: 0; width: 100%"><code class="hljs bash" data-trim>book/components/BookOverview/BookOverviewRoute.tsx</code></pre></li>
-                    <li>Pass the <code>BookService</code> as a property to the component.</li>
-                    <li>Return the <code>&lt;Route&gt;</code> element from the function component just created:
-                        <pre style="margin: 0; width: 100%"><code class="hljs typescript" data-trim>
-export const BookOverviewRoute = (props: Props) => {
-  const {bookService} = props;
-
-  return &lt;Route path="/book-app/books"
-                render={props => &lt;BookOverview bookService={bookService}/&gt;}/&gt;;
-};
-                        </code></pre>
-                    </li>
-                </ol>
-            </section>
-            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (7/10)</h3>
-                <div class="white" style="text-align: left">Make use of the <code>history.push()</code> method passed with properties to the <code>&lt;Route&gt;</code>'s <code>render</code> property for redirecting to the <code>BookDetails</code> component:
-                    <pre style="width: 100%"><code class="hljs html" data-trim>
-&lt;BookOverview bookService={bookService}
-              onBookSelection={
-              (book) => props.history.push(`/book-app/book/${book.id}`)}/&gt;
-                    </code></pre>
+                <h3 class="white" style="text-transform: none">Router (4/6)</h3>
+                <div><pre>
+                    <code class="hljs html" data-trim>
+                        import { useNavigate } from "react-router-dom";
+                    </code>
+                </pre></div>
+                <div class="white" style="text-align: left">Make use of the <code>useNavigate hoook</code> to provide routing action to the component
+                    <div class="white">on clicking of table row we use navigate function to route to specific book page</div>
+                    <pre style="width: 100%">
+                        <code class="hljs html" data-trim>
+                            &lt;TableRow
+                                hover
+                                key={book.id}
+                                onClick={() => navigate(`/book-app/book/${book.id}`)}
+                            &gt;
+                        </code>
+                    </pre>
                 </div>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (8/10)</h3>
+                <h3 class="white" style="text-transform: none">Router (5/6)</h3>
                 <ol class="white">
-                    <li>Create a new function component <code>BookDetailsRoute</code> in <pre style="margin: 0; width: 100%"><code class="hljs bash" data-trim>book/components/BookDetails/BookDetailsRoute.tsx</code></pre></li>
-                    <li>Pass the <code>BookService</code> as a property to the component.</li>
-                    <li>Return the <code>&lt;Route&gt;</code> element from the function component just created:
-                        <pre style="margin: 0; width: 100%"><code class="hljs typescript" data-trim>
-export const BookDetailsRoute = (props: BookDetailsRouteProps) => {
-  const {bookService} = props;
-
-  return &lt;Route path="/book-app/book"
-                render={...}/&gt;;
-};
-                        </code></pre>
-                    </li>
+                    <li>Go to BookDetails Component</li>
+                    <li>import needed dependencies <pre><code class="hljs typescript" data-trim>import { useParams, useNavigate } from "react-router-dom";</code></pre></li>
+                    <li>use useParams hook to access book id from the url <pre><code class="hljs html" data-trim>  const { id } = useParams<ParamTypes>(); </code></pre></li>
+                    <li>if we can access id use the BookService method <pre><code>findOne</code></pre>to access book from database</li>
                 </ol>
             </section>
             <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (9/10)</h3>
-                <div class="white" style="text-align: left">Implement the <code>&lt;Route&gt;</code>'s <code>render</code> property:
-                    <pre style="width: 100%"><code class="hljs html" data-trim>
-render={({match}) => (
-  &lt;Switch&gt;
-    &lt;Route path={match.path} exact
-           render={props => &lt;BookDetails {...props}
-                                         book={{title: '', authors: ''}}
-                                         onBookChange={book => bookService.save(book).then(
-                                                () => props.history.push('/book-app/books'))}/&gt;}/&gt;
-    &lt;Route path={`${match.path}/:id`}
-           render={props => &lt;ExistingBookDetails {...props}
-                                         bookId={props.match.params.id}
-                                         bookService={bookService}/&gt;}/&gt;
-  &lt;/Switch&gt;
-)}
-                    </code></pre>
-                </div>
-            </section>
-            <section data-background-image="../common/img/shapes/Fixed_Shape_3_SVG/Fixed_Shape_3_CapgeminiBlue_RGB.svg">
-                <h3 class="white" style="text-transform: none">Router (10/10)</h3>
-                <div class="white" style="text-align: left">Implement the <code>&lt;ExistingBookDetails&gt;</code> component:
-                    <pre style="width: 100%"><code class="hljs typescript" data-trim>
-interface ExistingBookDetailsProps extends RouteComponentProps {
-  bookService: Pick&lt;BooksService, 'save' | 'findOne'&gt;;
-  bookId: string
-}
-
-interface ExistingBookDetailsState {
-  book: Book | null
-}
-
-class ExistingBookDetails extends Component&lt;ExistingBookDetailsProps, ExistingBookDetailsState&gt; {
-  state = {
-    book: null
-  };
-
-  componentDidMount(): void {
-    const bookIdAsNumber = +this.props.bookId;
-    if (isNaN(bookIdAsNumber)) {
-      this.props.history.push('/book-app/book');
-    } else {
-      this.props.bookService.findOne(bookIdAsNumber).then(
-        book => this.setState({book}),
-        () => this.props.history.push('/book-app/book'));
-    }
-  }
-
-  render() {
-    if (this.state.book) {
-      return &lt;Route path="/book-app/book/:id"
-                    render={props => &lt;BookDetails {...props}
-                                                  book={this.state.book!}
-                                                  onBookChange={book => this.props.bookService.save(book).then(
-                                                    () => props.history.push('/book-app/books'))}/&gt;
-                    }/>;
-    }
-    return &lt;p className="container"&gt;Loading book...&lt;/p&gt;;
-  }
-}
-                    </code></pre>
-                </div>
+                <h3 class="white" style="text-transform: none">Router (6/6)</h3>
+                <ol class="white">
+                    <li>Go to BookDetails Component</li>
+                    <li>import needed dependencies <pre><code class="hljs typescript" data-trim>import { useParams, useNavigate } from "react-router-dom";</code></pre></li>
+                    <li>use useParams hook to access book id from the url <pre><code class="hljs html" data-trim>  const { id } = useParams<ParamTypes>(); </code></pre></li>
+                    <li>if we can access id use the BookService method <pre><code>findOne</code></pre>to access book from database</li>
+                </ol>
             </section>
         </section>
         <section id="forms">
